@@ -1,6 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const [sticky, setSticky] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setSticky(true);
+      } else {
+        setSticky(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const navItems = (
     <>
       <li>
@@ -19,8 +33,12 @@ const Navbar = () => {
   );
   return (
     <>
-      <div className=" max-w-screen-2xl container max-auto md:px-20 px-4">
-        <div className="navbar bg-base-100 shadow-sm">
+      <div className={`max-w-screen-2xl container max-auto md:px-20 px-4 fixed top-0 right-0 left-0${
+        sticky
+        ? "sticky-navbar shadow-md bg-base-200 duration-300 transition-all ease-in-out"
+        :""
+      }`}>
+        <div className="navbar">
           <div className="navbar-start">
             <div className="dropdown">
               <div
@@ -57,7 +75,7 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
               <ul className="menu menu-horizontal px-1">{navItems}</ul>
             </div>
-            <div className="hidden md:block outline-none">
+            <div className="hidden md:block">
               <label className="input outline-none">
                 <svg
                   className="h-[1em] opacity-50"
@@ -75,7 +93,7 @@ const Navbar = () => {
                     <path d="m21 21-4.3-4.3"></path>
                   </g>
                 </svg>
-                <input className="" type="search" placeholder="Search" />
+                <input className="outline-none" type="search" placeholder="Search" />
               </label>
             </div>
             <label className="swap swap-rotate">
@@ -88,7 +106,7 @@ const Navbar = () => {
 
               {/* sun icon */}
               <svg
-                className="swap-off h-8 w-8 fill-current"
+                className="swap-off h-7 w-7 fill-current"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -97,7 +115,7 @@ const Navbar = () => {
 
               {/* moon icon */}
               <svg
-                className="swap-on h-8 w-8 fill-current"
+                className="swap-on h-7 w-7 fill-current"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
